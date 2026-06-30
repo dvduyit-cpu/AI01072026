@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tập huấn AI trong hoạt động ủy thác với NHCSXH - 26 trang</title>
+<style>
+:root{--bg:#f5f7fb;--surface:#fff;--surface2:#eef4ff;--text:#152033;--muted:#607086;--primary:#1357c8;--primary2:#0b3d91;--accent:#0c9a7a;--warning:#b7791f;--danger:#b42318;--border:#d9e2f2;--shadow:0 18px 42px rgba(23,44,88,.15);--radius:24px}
+[data-theme=dark]{--bg:#0f172a;--surface:#151f33;--surface2:#182945;--text:#eef4ff;--muted:#b5c3d8;--primary:#7db1ff;--primary2:#9ec5ff;--accent:#58d6b7;--border:#2e405d;--shadow:0 20px 48px rgba(0,0,0,.34)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text);font-size:20px;line-height:1.45;overflow-x:hidden}
+button{font:inherit;border:0;border-radius:14px;padding:10px 14px;font-weight:800;cursor:pointer;background:var(--primary);color:#fff;transition:.18s}.secondary{background:var(--surface2);color:var(--primary2);border:1px solid var(--border)}button:hover{transform:translateY(-1px);opacity:.96}
+.app{display:grid;grid-template-columns:330px minmax(0,1fr);min-height:100vh;transition:.25s}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 16px;background:linear-gradient(180deg,var(--primary2),#10213e);color:#fff;z-index:30;transition:.25s}
+body.menu-hidden .app{grid-template-columns:0 minmax(0,1fr)}body.menu-hidden aside{transform:translateX(-110%);width:0;padding:0;overflow:hidden}
+.menu-toggle{position:fixed;left:18px;top:16px;z-index:60;box-shadow:var(--shadow);background:var(--surface);color:var(--primary2);border:1px solid var(--border)}
+body:not(.menu-hidden) .menu-toggle{left:346px}.brand{padding:16px;border-radius:20px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);margin-bottom:14px}.brand h1{font-size:22px;line-height:1.2;margin:8px 0}.brand p{font-size:14px;opacity:.86;margin:0}.eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:12px;opacity:.82}
+.search{width:100%;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.12);color:#fff;outline:none;margin-bottom:12px}.search::placeholder{color:rgba(255,255,255,.75)}
+nav{display:grid;gap:5px}nav a{display:flex;gap:9px;align-items:center;color:rgba(255,255,255,.92);text-decoration:none;border-radius:12px;padding:9px 10px;font-size:14px}nav a:hover,nav a.active{background:rgba(255,255,255,.16)}.num{min-width:26px;height:26px;border-radius:99px;display:grid;place-items:center;background:rgba(255,255,255,.18);font-size:12px;font-weight:900}
+.side-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.side-actions button{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);color:#fff;font-size:14px}
+.topbar{position:sticky;top:0;z-index:20;padding:12px 20px 12px 78px;background:rgba(255,255,255,.75);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center}[data-theme=dark] .topbar{background:rgba(21,31,51,.78)}
+.topbar strong{font-size:18px;white-space:nowrap}.progress{height:10px;flex:1;border:1px solid var(--border);background:var(--surface2);border-radius:999px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.deck{padding:22px 22px 96px;display:grid;gap:28px;justify-items:center}.slide{position:relative;width:min(100%,calc((100vh - 92px)*16/9),1920px);aspect-ratio:16/9;min-height:620px;background:var(--surface);border:1px solid var(--border);border-radius:30px;box-shadow:var(--shadow);padding:38px 42px;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;scroll-margin-top:78px;opacity:0;transform:translateY(22px) scale(.988);transition:.45s}
+.slide.reveal{opacity:1;transform:none}.slide:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 7% 12%,rgba(19,87,200,.14),transparent 24%),radial-gradient(circle at 90% 15%,rgba(12,154,122,.12),transparent 22%),radial-gradient(circle at 78% 90%,rgba(183,121,31,.1),transparent 22%);pointer-events:none}
+.slide>*{position:relative;z-index:1}.slide-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.tag{display:inline-flex;gap:8px;align-items:center;background:var(--surface2);border:1px solid var(--border);color:var(--primary2);border-radius:999px;padding:7px 11px;font-size:14px;font-weight:900}.slide h2{font-size:clamp(34px,3.1vw,58px);line-height:1.05;letter-spacing:-.03em;margin:12px 0 8px}.subtitle{font-size:22px;color:var(--muted);margin:0;max-width:1100px}.slide-body{padding-top:20px;min-height:0;display:grid;align-content:start;gap:16px}.footer{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding-top:14px;color:var(--muted);font-size:15px}.pageno{font-weight:900;color:var(--primary2);font-size:18px}
+.cover-title{font-size:clamp(46px,4.8vw,86px);line-height:.97;letter-spacing:-.055em;margin:16px 0}.cover-title span{background:linear-gradient(90deg,var(--primary2),var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}.cover-lead{font-size:23px;color:var(--muted);max-width:1000px}.hero-layout{display:grid;grid-template-columns:1.12fr .88fr;gap:24px;align-items:center}.badge-row{display:flex;flex-wrap:wrap;gap:9px}.badge{background:var(--surface2);border:1px solid var(--border);color:var(--primary2);padding:7px 11px;border-radius:999px;font-weight:900;font-size:14px}.instructor-card{margin-top:20px;background:linear-gradient(135deg,rgba(19,87,200,.1),rgba(12,154,122,.1));border:1px solid var(--border);border-radius:22px;padding:18px}.instructor-card div{font-size:34px;font-weight:1000;color:var(--primary2);letter-spacing:.02em}.instructor-card small{color:var(--muted)}
+.grid{display:grid;gap:16px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card,.mini-card{background:rgba(255,255,255,.82);border:1px solid var(--border);border-radius:22px;padding:18px 20px;backdrop-filter:blur(8px)}[data-theme=dark] .card,[data-theme=dark] .mini-card{background:rgba(21,31,51,.84)}.card h3,.mini-card h3{margin:0 0 10px;color:var(--primary2);font-size:25px}.mini-card p,.card p,.card li,.mini-card li{font-size:19px}.info-list li,li{margin:0 0 8px}ul,ol{margin:8px 0 0 22px;padding:0}.callout{padding:14px 17px;border-left:6px solid var(--primary);background:var(--surface2);border-radius:17px;font-size:18px}.success{border-left-color:var(--accent)}.warning{border-left-color:var(--warning)}.danger,.bad{border-left-color:var(--danger)}.good{border-left:6px solid var(--accent)}.bad{border-left:6px solid var(--danger)}
+.visual{display:grid;place-items:center;min-height:100%;border-radius:26px;background:linear-gradient(135deg,rgba(19,87,200,.09),rgba(12,154,122,.1));border:1px solid var(--border);overflow:hidden}.visual svg{width:92%;height:auto}.table-wrap{overflow:auto;border-radius:18px}table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border)}th,td{border:1px solid var(--border);padding:10px 12px;text-align:left;vertical-align:top;font-size:16.5px}th{background:var(--surface2);color:var(--primary2)}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.flow div{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:16px;min-height:190px}.flow b{width:42px;height:42px;border-radius:15px;display:grid;place-items:center;background:var(--primary);color:#fff;font-size:22px}.flow span{display:block;font-size:22px;font-weight:900;color:var(--primary2);margin:12px 0 8px}.flow small{font-size:16px;color:var(--muted)}
+.prompt-line{background:var(--surface2);border:1px solid var(--border);border-radius:17px;padding:14px;font-size:18px;white-space:pre-wrap}.copy-btn{width:max-content;margin-top:10px}.tool-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.tool-card{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(238,244,255,.9));border:1px solid var(--border);border-radius:24px;padding:20px;box-shadow:0 12px 28px rgba(19,87,200,.08)}[data-theme=dark] .tool-card{background:linear-gradient(180deg,rgba(21,31,51,.92),rgba(24,41,69,.9))}.logo{width:76px;height:76px;border-radius:24px;display:grid;place-items:center;color:#fff;font-weight:1000;font-size:26px;margin-bottom:12px;box-shadow:0 14px 30px rgba(19,87,200,.18)}.chat{background:linear-gradient(135deg,#0b3d91,#1357c8)}.gem{background:linear-gradient(135deg,#3f7bf7,#9f5cff)}.note{background:linear-gradient(135deg,#2b62d9,#0c9a7a)}.canva{background:linear-gradient(135deg,#00c4cc,#7d2cff)}.thanks{text-align:center;margin-top:16px;padding:22px;border-radius:24px;background:linear-gradient(135deg,rgba(19,87,200,.1),rgba(12,154,122,.1));border:1px solid var(--border)}.thanks h2{margin:0 0 8px}
+.prompt-library{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.prompt-library .mini-card{padding:11px 12px;border-radius:18px}.prompt-library .mini-card h3{font-size:18px;margin:0 0 6px}.prompt-library .prompt-line{font-size:13.8px;line-height:1.35;padding:9px;border-radius:13px;max-height:106px;overflow:auto}
+.fab{position:fixed;right:18px;bottom:18px;z-index:70;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:90;background:#10213e;color:#fff;padding:10px 16px;border-radius:999px;display:none;font-size:15px}
+.hidden{display:none!important}
+@media(max-width:1350px){body{font-size:18px}.slide{width:100%;min-height:auto;aspect-ratio:auto}.hero-layout,.two{grid-template-columns:1fr}.three,.four,.tool-grid,.flow{grid-template-columns:repeat(2,1fr)}.slide h2{font-size:42px}.subtitle{font-size:19px}}
+@media(max-width:900px){.app{grid-template-columns:1fr}aside{position:fixed;left:0;top:0;width:min(330px,88vw);transform:translateX(-105%)}aside.open{transform:none}body.menu-hidden aside{width:min(330px,88vw);padding:20px 16px}.menu-toggle,body:not(.menu-hidden) .menu-toggle{left:16px}.topbar{padding-left:76px}.deck{padding:16px}.three,.four,.tool-grid,.flow{grid-template-columns:1fr}.slide{padding:28px}.cover-title{font-size:46px}}
+@media print{aside,.topbar,.menu-toggle,.fab,.toast{display:none!important}.app{display:block}.deck{padding:0;gap:0}.slide{width:1920px;height:1080px;aspect-ratio:auto;min-height:1080px;border-radius:0;box-shadow:none;break-after:page;page-break-after:always}}
+</style>
+</head>
+<body>
+<button id="menuToggle" class="menu-toggle">☰ Ẩn menu</button>
+<div class="app">
+<aside>
+  <div class="brand">
+    <div class="eyebrow">Bản chỉnh chu - 26 trang</div>
+    <h1>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</h1>
+    <p>Giảng viên tập huấn: <b>ĐẶNG VIỆT DUY</b></p>
+  </div>
+  <input id="search" class="search" placeholder="Tìm nhanh trang...">
+  <nav><a href="#s01"><span class="num">01</span>Trang bìa</a>
+<a href="#s02"><span class="num">02</span>Thông tin chương trình</a>
+<a href="#s03"><span class="num">03</span>Mục tiêu tập huấn</a>
+<a href="#s04"><span class="num">04</span>Đối tượng &amp; chuẩn bị</a>
+<a href="#s05"><span class="num">05</span>Lịch trình 01 ngày</a>
+<a href="#s06"><span class="num">06</span>AI là gì?</a>
+<a href="#s07"><span class="num">07</span>Vai trò của AI</a>
+<a href="#s08"><span class="num">08</span>Lý thuyết AI</a>
+<a href="#s09"><span class="num">09</span>AI hoạt động thế nào?</a>
+<a href="#s10"><span class="num">10</span>Năng lực &amp; giới hạn</a>
+<a href="#s11"><span class="num">11</span>An toàn dữ liệu</a>
+<a href="#s12"><span class="num">12</span>5 Không - 5 Nên</a>
+<a href="#s13"><span class="num">13</span>Bản đồ công việc</a>
+<a href="#s14"><span class="num">14</span>Công thức prompt</a>
+<a href="#s15"><span class="num">15</span>Prompt chưa tốt - tốt</a>
+<a href="#s16"><span class="num">16</span>4 công cụ AI</a>
+<a href="#s17"><span class="num">17</span>ChatGPT</a>
+<a href="#s18"><span class="num">18</span>Gemini</a>
+<a href="#s19"><span class="num">19</span>NotebookLM</a>
+<a href="#s20"><span class="num">20</span>Canva AI</a>
+<a href="#s21"><span class="num">21</span>Ứng dụng 1</a>
+<a href="#s22"><span class="num">22</span>Ứng dụng 2</a>
+<a href="#s23"><span class="num">23</span>Ứng dụng 3</a>
+<a href="#s24"><span class="num">24</span>Ứng dụng 4</a>
+<a href="#s25"><span class="num">25</span>Kho prompt mẫu</a>
+<a href="#s26"><span class="num">26</span>Kết luận &amp; cảm ơn</a></nav>
+  <div class="side-actions">
+    <button id="theme">Đổi nền</button>
+    <button id="print">In/PDF</button>
+    <button id="full">Toàn màn hình</button>
+    <button id="font">A+ chữ</button>
+  </div>
+</aside>
+<main>
+  <div class="topbar">
+    <div class="progress"><div id="bar" class="bar"></div></div>
+    <span id="counter">01 / 26</span>
+  </div>
+  <div class="deck">
+    
+<section class="slide" id="s01">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 01 / 26 · Trang bìa</span>
+      <h2>ỨNG DỤNG TRÍ TUỆ NHÂN TẠO (AI)</h2>
+      <p class="subtitle">Trong hoạt động ủy thác với Ngân hàng Chính sách xã hội</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="hero-layout">
+  <div>
+    <div class="badge-row">
+      <span class="badge">Website trình chiếu tương tác</span>
+      <span class="badge">Trình chiếu toàn màn hình</span>
+      <span class="badge">Có thể ẩn menu</span>
+    </div>
+    <h1 class="cover-title"><span>Ứng dụng AI</span><br>trong hoạt động ủy thác với NHCSXH</h1>
+    <p class="cover-lead">Tài liệu tập huấn giúp cán bộ Hội cấp xã hiểu đúng về AI, biết sử dụng 4 công cụ AI phổ biến và tạo được sản phẩm áp dụng ngay vào công việc.</p>
+    <div class="instructor-card">
+      <strong>Giảng viên tập huấn:</strong>
+      <div>ĐẶNG VIỆT DUY</div>
+      <small>Trung tâm Ngoại ngữ và Tin học - Phân hiệu Trường Đại học Bình Dương tại Cà Mau</small>
+    </div>
+  </div>
+  <div class="visual ai-hero">
+    <svg viewBox="0 0 720 540" aria-label="Minh họa AI">
+      <defs><linearGradient id="aiGrad" x1="0" x2="1"><stop offset="0%" stop-color="#1357c8"/><stop offset="100%" stop-color="#0c9a7a"/></linearGradient></defs>
+      <circle cx="530" cy="110" r="90" fill="#dceaff"/>
+      <circle cx="610" cy="210" r="42" fill="#dff8f1"/>
+      <rect x="120" y="95" width="480" height="310" rx="34" fill="white" stroke="#d9e2f2" stroke-width="5"/>
+      <rect x="170" y="142" width="380" height="28" rx="14" fill="#eef4ff"/>
+      <rect x="170" y="190" width="260" height="22" rx="11" fill="#eef4ff"/>
+      <rect x="170" y="230" width="320" height="22" rx="11" fill="#eef4ff"/>
+      <g transform="translate(360 305)">
+        <circle r="92" fill="url(#aiGrad)" opacity=".16"/>
+        <circle r="72" fill="url(#aiGrad)"/>
+        <circle cx="-24" cy="-10" r="8" fill="white"/>
+        <circle cx="24" cy="-10" r="8" fill="white"/>
+        <path d="M-32 20 Q0 43 32 20" fill="none" stroke="white" stroke-width="9" stroke-linecap="round"/>
+        <text x="0" y="92" text-anchor="middle" font-size="28" fill="#0b3d91" font-weight="900">AI</text>
+      </g>
+      <g fill="#fff" stroke="#1357c8" stroke-width="4">
+        <circle cx="92" cy="220" r="30"/><circle cx="620" cy="342" r="30"/><circle cx="108" cy="360" r="24"/>
+        <path d="M122 220h82M590 342h-96M132 347l96-64"/>
+      </g>
+    </svg>
+  </div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">01</span></div>
+</section>
+<section class="slide" id="s02">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 02 / 26 · Thông tin chương trình</span>
+      <h2>Thông tin chung về lớp tập huấn</h2>
+      <p class="subtitle">Nội dung được thiết kế cho cán bộ Hội cấp xã tham gia hoạt động ủy thác.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card">
+    <h3>Thông tin lớp</h3>
+    <ul class="info-list">
+      <li><b>Chuyên đề:</b> Ứng dụng công nghệ số và trí tuệ nhân tạo AI trong quản lý hoạt động ủy thác.</li>
+      <li><b>Giảng viên tập huấn:</b> ĐẶNG VIỆT DUY.</li>
+      <li><b>Hình thức:</b> Trình bày ngắn - demo trực tiếp - thực hành theo nhóm - báo cáo sản phẩm.</li>
+      <li><b>Thời lượng gợi ý:</b> 01 ngày, chia thành phiên sáng và phiên chiều.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Sản phẩm cuối buổi</h3>
+    <ul>
+      <li>01 bài tuyên truyền chính sách tín dụng.</li>
+      <li>01 thông báo hoặc biên bản họp Tổ TK&VV.</li>
+      <li>01 checklist kiểm tra/giám sát đã ẩn danh dữ liệu.</li>
+      <li>01 poster hoặc nội dung truyền thông giáo dục tài chính.</li>
+    </ul>
+  </div>
+</div>
+<div class="callout success"><b>Định hướng:</b> Không học AI theo kiểu lý thuyết dài, mà học theo công việc thực tế: cần viết gì, cần tóm tắt gì, cần thiết kế gì, cần kiểm tra gì.</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">02</span></div>
+</section>
+<section class="slide" id="s03">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 03 / 26 · Mục tiêu tập huấn</span>
+      <h2>Sau tập huấn, học viên làm được gì?</h2>
+      <p class="subtitle">Mục tiêu được thiết kế theo hướng dễ đo lường, có sản phẩm cụ thể.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid three">
+  <div class="mini-card"><h3>1. Hiểu đúng AI</h3><p>Biết AI là gì, AI có thể hỗ trợ gì và không thể thay thế trách nhiệm của cán bộ Hội.</p></div>
+  <div class="mini-card"><h3>2. Viết được prompt</h3><p>Biết dùng cấu trúc câu lệnh 6 phần để giao việc rõ ràng cho ChatGPT, Gemini, NotebookLM và Canva AI.</p></div>
+  <div class="mini-card"><h3>3. Tạo được nội dung</h3><p>Soạn bài tuyên truyền, tin nhắn Zalo, thông báo, biên bản, checklist và báo cáo ngắn.</p></div>
+  <div class="mini-card"><h3>4. Thiết kế truyền thông</h3><p>Tạo poster hoặc hình ảnh truyền thông bằng Canva AI với thông điệp rõ, chữ lớn, dễ đọc.</p></div>
+  <div class="mini-card"><h3>5. Bảo mật dữ liệu</h3><p>Biết ẩn danh thông tin hội viên, hộ vay và dữ liệu tín dụng trước khi dùng AI.</p></div>
+  <div class="mini-card"><h3>6. Áp dụng thực tế</h3><p>Biết chọn công cụ phù hợp cho từng nhóm việc trong hoạt động ủy thác.</p></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">03</span></div>
+</section>
+<section class="slide" id="s04">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 04 / 26 · Đối tượng &amp; chuẩn bị</span>
+      <h2>Đối tượng học viên và yêu cầu chuẩn bị</h2>
+      <p class="subtitle">Giúp lớp học đi vào thực hành nhanh, không mất thời gian xử lý kỹ thuật.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card">
+    <h3>Đối tượng học viên</h3>
+    <ul>
+      <li>Chủ tịch Hội LHPN xã, phường.</li>
+      <li>Ủy viên Ban Thường vụ Hội LHPN cấp xã.</li>
+      <li>Cán bộ trực tiếp tham gia hoạt động ủy thác, quản lý Tổ TK&VV, truyền thông chính sách tín dụng.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Chuẩn bị trước buổi học</h3>
+    <ul>
+      <li>Điện thoại thông minh hoặc laptop có Internet.</li>
+      <li>Tài khoản Google để dùng Gemini, NotebookLM, Canva.</li>
+      <li>01 mẫu văn bản trống hoặc nội dung đã ẩn danh để thực hành.</li>
+      <li>Không sử dụng danh sách hộ vay thật trong bài tập.</li>
+    </ul>
+  </div>
+</div>
+<div class="callout warning"><b>Lưu ý cho giảng viên:</b> Nên yêu cầu học viên đăng nhập sẵn các công cụ trước giờ thực hành để tránh mất thời gian.</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">04</span></div>
+</section>
+<section class="slide" id="s05">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 05 / 26 · Lịch trình 01 ngày</span>
+      <h2>Chương trình tập huấn chi tiết</h2>
+      <p class="subtitle">Gợi ý bố trí nội dung theo phiên sáng và phiên chiều.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="table-wrap">
+<table>
+<thead><tr><th>Thời gian</th><th>Nội dung</th><th>Hoạt động</th><th>Kết quả đầu ra</th></tr></thead>
+<tbody>
+<tr><td>07:30 - 08:00</td><td>Khai mạc, giới thiệu mục tiêu</td><td>Giảng viên nêu bối cảnh chuyển đổi số và nhu cầu ứng dụng AI</td><td>Học viên nắm mục tiêu buổi học</td></tr>
+<tr><td>08:00 - 09:00</td><td>AI là gì và lý thuyết nền tảng</td><td>Minh họa bằng ví dụ gần gũi trong công việc Hội</td><td>Hiểu AI, GenAI, prompt</td></tr>
+<tr><td>09:00 - 10:00</td><td>Nguyên tắc an toàn dữ liệu</td><td>Phân biệt dữ liệu được/không được nhập AI</td><td>Nắm quy tắc bảo mật</td></tr>
+<tr><td>10:00 - 11:00</td><td>Demo 4 công cụ AI</td><td>ChatGPT, Gemini, NotebookLM, Canva AI</td><td>Biết chọn công cụ</td></tr>
+<tr><td>13:30 - 14:45</td><td>Thực hành nhóm 1</td><td>Tuyên truyền chính sách và quản lý Tổ TK&VV</td><td>Bài viết, thông báo, biên bản</td></tr>
+<tr><td>14:45 - 15:45</td><td>Thực hành nhóm 2</td><td>Kiểm tra, giám sát, giáo dục tài chính</td><td>Checklist, poster, báo cáo</td></tr>
+<tr><td>15:45 - 16:30</td><td>Báo cáo sản phẩm</td><td>Nhóm trình bày, giảng viên góp ý</td><td>Hoàn thiện sản phẩm</td></tr>
+<tr><td>16:30 - 17:00</td><td>Tổng kết</td><td>Quiz nhanh, chốt nguyên tắc áp dụng</td><td>Cam kết ứng dụng</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">05</span></div>
+</section>
+<section class="slide" id="s06">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 06 / 26 · AI là gì?</span>
+      <h2>AI là gì?</h2>
+      <p class="subtitle">Giải thích ngắn gọn, dễ hiểu để người mới bắt đầu vẫn nắm được.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card">
+    <h3>Khái niệm dễ hiểu</h3>
+    <p><b>AI - Trí tuệ nhân tạo</b> là công nghệ giúp máy tính thực hiện một số việc giống khả năng tư duy của con người như hiểu câu hỏi, viết nội dung, tóm tắt tài liệu, phân tích dữ liệu, nhận diện hình ảnh và gợi ý phương án.</p>
+    <div class="callout"><b>Nói đơn giản:</b> AI giống một trợ lý số, hỗ trợ xử lý thông tin nhanh hơn, nhưng không thay thế con người trong kiểm tra và quyết định.</div>
+  </div>
+  <div class="visual">
+    <svg viewBox="0 0 640 460"><rect x="150" y="80" width="340" height="250" rx="30" fill="#fff" stroke="#d9e2f2" stroke-width="5"/><circle cx="320" cy="200" r="88" fill="#eef4ff" stroke="#1357c8" stroke-width="5"/><circle cx="288" cy="190" r="10" fill="#1357c8"/><circle cx="352" cy="190" r="10" fill="#1357c8"/><path d="M284 228 Q320 254 356 228" fill="none" stroke="#0c9a7a" stroke-width="9" stroke-linecap="round"/><text x="320" y="390" text-anchor="middle" font-size="32" font-weight="900" fill="#0b3d91">AI = Trợ lý số hỗ trợ con người</text></svg>
+  </div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">06</span></div>
+</section>
+<section class="slide" id="s07">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 07 / 26 · Vai trò của AI</span>
+      <h2>Vì sao AI quan trọng trong công việc Hội cấp xã?</h2>
+      <p class="subtitle">AI giúp giảm thời gian soạn thảo và tăng chất lượng truyền thông nếu dùng đúng cách.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid three">
+  <div class="mini-card"><h3>Nhanh hơn</h3><p>Soạn bản nháp thông báo, báo cáo, bài tuyên truyền chỉ trong vài phút.</p></div>
+  <div class="mini-card"><h3>Rõ hơn</h3><p>Chuyển văn bản dài, khó hiểu thành nội dung ngắn gọn, dễ truyền đạt cho hội viên.</p></div>
+  <div class="mini-card"><h3>Đẹp hơn</h3><p>Hỗ trợ tạo poster, slide, infographic để truyền thông trực quan hơn.</p></div>
+  <div class="mini-card"><h3>Hệ thống hơn</h3><p>Lập checklist, bảng kế hoạch, dàn ý báo cáo, danh sách câu hỏi kiểm tra.</p></div>
+  <div class="mini-card"><h3>Gần dân hơn</h3><p>Viết lại nội dung theo giọng văn dễ hiểu, gần gũi, phù hợp người dân địa phương.</p></div>
+  <div class="mini-card"><h3>Chủ động hơn</h3><p>Cán bộ có thể tự tạo nội dung phục vụ công việc mà không phụ thuộc hoàn toàn vào mẫu có sẵn.</p></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">07</span></div>
+</section>
+<section class="slide" id="s08">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 08 / 26 · Lý thuyết AI</span>
+      <h2>Một số khái niệm nền tảng</h2>
+      <p class="subtitle">Phân biệt nhanh các khái niệm để học viên hiểu đúng.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid four">
+  <div class="mini-card"><h3>AI</h3><p>Khái niệm chung về hệ thống có khả năng thực hiện nhiệm vụ thông minh.</p></div>
+  <div class="mini-card"><h3>Machine Learning</h3><p>Máy học từ dữ liệu để nhận diện quy luật, phân loại hoặc dự đoán.</p></div>
+  <div class="mini-card"><h3>Deep Learning</h3><p>Một nhánh của Machine Learning, dùng mô hình nhiều lớp để xử lý dữ liệu phức tạp.</p></div>
+  <div class="mini-card"><h3>Generative AI</h3><p>AI tạo nội dung mới như văn bản, hình ảnh, dàn ý, bảng, slide, kịch bản.</p></div>
+</div>
+<div class="callout success"><b>Điểm cần nhớ:</b> Trong lớp tập huấn này, chúng ta tập trung vào Generative AI vì phù hợp nhất với công việc văn phòng, truyền thông và hỗ trợ nghiệp vụ.</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">08</span></div>
+</section>
+<section class="slide" id="s09">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 09 / 26 · AI hoạt động thế nào?</span>
+      <h2>Quy trình AI tạo phản hồi</h2>
+      <p class="subtitle">Giúp học viên hiểu vì sao câu lệnh càng rõ thì kết quả càng tốt.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="flow">
+  <div><b>1</b><span>Dữ liệu huấn luyện</span><small>AI học từ lượng lớn văn bản, hình ảnh, mã nguồn, tài liệu.</small></div>
+  <div><b>2</b><span>Mô hình AI</span><small>Hệ thống học mẫu, cách diễn đạt, cấu trúc thông tin.</small></div>
+  <div><b>3</b><span>Prompt</span><small>Người dùng giao nhiệm vụ bằng câu lệnh cụ thể.</small></div>
+  <div><b>4</b><span>Phản hồi</span><small>AI tạo bản nháp theo yêu cầu đã nhập.</small></div>
+  <div><b>5</b><span>Kiểm chứng</span><small>Cán bộ đọc, sửa, kiểm tra và chịu trách nhiệm cuối cùng.</small></div>
+</div>
+<div class="callout warning"><b>Kết luận:</b> Prompt mơ hồ tạo kết quả mơ hồ. Prompt rõ vai trò, nhiệm vụ, bối cảnh và định dạng sẽ cho kết quả tốt hơn.</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">09</span></div>
+</section>
+<section class="slide" id="s10">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 10 / 26 · Năng lực &amp; giới hạn</span>
+      <h2>AI làm tốt gì và cần cẩn trọng gì?</h2>
+      <p class="subtitle">Không thần thánh hóa AI, cũng không xem AI chỉ là trò chơi công nghệ.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card good"><h3>AI làm tốt</h3><ul><li>Soạn bản nháp nhanh.</li><li>Tóm tắt văn bản dài.</li><li>Viết lại theo nhiều phong cách.</li><li>Tạo bảng, checklist, câu hỏi.</li><li>Gợi ý ý tưởng truyền thông.</li><li>Hỗ trợ thiết kế hình ảnh.</li></ul></div>
+  <div class="card bad"><h3>AI còn giới hạn</h3><ul><li>Có thể trả lời sai hoặc bịa thông tin.</li><li>Không hiểu đầy đủ bối cảnh địa phương.</li><li>Không thay thế quy định nghiệp vụ.</li><li>Không chịu trách nhiệm pháp lý.</li><li>Không được dùng với dữ liệu cá nhân nhạy cảm.</li><li>Cần con người kiểm tra trước khi ban hành.</li></ul></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">10</span></div>
+</section>
+<section class="slide" id="s11">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 11 / 26 · An toàn dữ liệu</span>
+      <h2>Nguyên tắc an toàn khi dùng AI</h2>
+      <p class="subtitle">Nội dung bắt buộc trong lớp vì liên quan hội viên, hộ vay và tín dụng chính sách.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card bad">
+    <h3>Không nhập vào AI</h3>
+    <ul>
+      <li>Họ tên đầy đủ của hội viên, hộ vay.</li>
+      <li>Số CCCD, số điện thoại, địa chỉ cụ thể.</li>
+      <li>Số tài khoản, số dư nợ, số tiền vay từng hộ.</li>
+      <li>Danh sách hộ vay thật hoặc hồ sơ tín dụng gốc.</li>
+    </ul>
+  </div>
+  <div class="card good">
+    <h3>Cách thay thế an toàn</h3>
+    <ul>
+      <li>Dùng “Hộ A”, “Hộ B”, “Tổ 1”, “Tổ 2”.</li>
+      <li>Viết “một trường hợp chậm trả lãi” thay vì nêu tên thật.</li>
+      <li>Dùng mẫu trống hoặc dữ liệu đã ẩn danh.</li>
+      <li>Chỉ đưa vào AI thông tin công khai, không nhạy cảm.</li>
+    </ul>
+  </div>
+</div>
+<div class="callout danger"><b>Quy tắc vàng:</b> AI hỗ trợ xử lý bản nháp, không phải nơi lưu trữ hoặc xử lý dữ liệu cá nhân thật.</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">11</span></div>
+</section>
+<section class="slide" id="s12">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 12 / 26 · 5 Không - 5 Nên</span>
+      <h2>Quy tắc 5 Không - 5 Nên</h2>
+      <p class="subtitle">Dễ nhớ, dễ nhắc lại khi học viên thực hành.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card bad"><h3>5 Không</h3><ol><li>Không nhập dữ liệu cá nhân thật.</li><li>Không nhập số tiền vay cụ thể từng hộ.</li><li>Không sao chép nguyên văn AI khi chưa kiểm tra.</li><li>Không dùng AI để thay quy trình chính thức.</li><li>Không dùng nội dung gây áp lực, thiếu nhân văn.</li></ol></div>
+  <div class="card good"><h3>5 Nên</h3><ol><li>Nên ẩn danh dữ liệu trước khi nhập.</li><li>Nên giao vai trò và nhiệm vụ rõ ràng.</li><li>Nên yêu cầu định dạng cụ thể.</li><li>Nên kiểm tra lại thuật ngữ và chính sách.</li><li>Nên lưu các prompt tốt để dùng lại.</li></ol></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">12</span></div>
+</section>
+<section class="slide" id="s13">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 13 / 26 · Bản đồ công việc</span>
+      <h2>Công việc ủy thác có thể ứng dụng AI</h2>
+      <p class="subtitle">Chọn đúng công cụ theo đúng việc.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="table-wrap">
+<table>
+<thead><tr><th>Nhóm việc</th><th>Công việc thực tế</th><th>AI hỗ trợ</th><th>Sản phẩm</th></tr></thead>
+<tbody>
+<tr><td>Tuyên truyền chính sách</td><td>Phổ biến chính sách tín dụng, quyền và nghĩa vụ hộ vay</td><td>Viết bài, kịch bản, FAQ</td><td>Bài đăng, tin Zalo, kịch bản phát thanh</td></tr>
+<tr><td>Quản lý Tổ TK&VV</td><td>Họp tổ, nhắc lịch, sinh hoạt định kỳ</td><td>Thông báo, biên bản, checklist</td><td>Thông báo họp, biên bản, danh sách việc cần làm</td></tr>
+<tr><td>Kiểm tra giám sát</td><td>Kiểm tra hồ sơ, sử dụng vốn, trả lãi, gửi tiết kiệm</td><td>Phiếu kiểm tra, câu hỏi gợi ý</td><td>Checklist, báo cáo sau kiểm tra</td></tr>
+<tr><td>Giáo dục tài chính</td><td>Hướng dẫn tiết kiệm, quản lý chi tiêu, sử dụng vốn hiệu quả</td><td>Nội dung truyền thông, poster</td><td>Poster, infographic, slide</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">13</span></div>
+</section>
+<section class="slide" id="s14">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 14 / 26 · Công thức prompt</span>
+      <h2>Công thức prompt 6 phần</h2>
+      <p class="subtitle">Dùng chung cho ChatGPT, Gemini, NotebookLM và Canva AI.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid three">
+  <div class="mini-card"><h3>1. Vai trò</h3><p>“Bạn là cán bộ Hội Phụ nữ cấp xã...”</p></div>
+  <div class="mini-card"><h3>2. Nhiệm vụ</h3><p>“Hãy soạn thông báo / bài viết / checklist...”</p></div>
+  <div class="mini-card"><h3>3. Bối cảnh</h3><p>“Dùng cho hoạt động ủy thác với NHCSXH...”</p></div>
+  <div class="mini-card"><h3>4. Đối tượng</h3><p>“Hội viên phụ nữ, hộ vay, Tổ trưởng Tổ TK&VV...”</p></div>
+  <div class="mini-card"><h3>5. Định dạng</h3><p>“Trình bày thành bảng, gạch đầu dòng, 300 chữ...”</p></div>
+  <div class="mini-card"><h3>6. Ràng buộc</h3><p>“Không nêu thông tin cá nhân, không nêu số tiền vay cụ thể...”</p></div>
+</div>
+<div class="prompt-line copyable">Bạn là [vai trò]. Hãy [nhiệm vụ] về [chủ đề]. Đối tượng đọc là [đối tượng]. Nội dung cần [yêu cầu văn phong]. Trình bày theo [định dạng]. Không đưa thông tin cá nhân, không nêu số tiền vay cụ thể.</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">14</span></div>
+</section>
+<section class="slide" id="s15">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 15 / 26 · Prompt chưa tốt - tốt</span>
+      <h2>Ví dụ nâng cấp prompt</h2>
+      <p class="subtitle">Cho học viên thấy sự khác biệt giữa câu lệnh mơ hồ và câu lệnh rõ.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card bad">
+    <h3>Prompt chưa tốt</h3>
+    <div class="prompt-line">Viết bài về vay vốn.</div>
+    <p><b>Vấn đề:</b> quá chung, không rõ đối tượng, không rõ độ dài, không có ràng buộc bảo mật.</p>
+  </div>
+  <div class="card good">
+    <h3>Prompt tốt hơn</h3>
+    <div class="prompt-line copyable">Bạn là cán bộ Hội Phụ nữ cấp xã. Hãy viết bài tuyên truyền 300 chữ về sử dụng vốn vay đúng mục đích và trả nợ đúng hạn. Đối tượng đọc là hội viên phụ nữ tại xã. Giọng văn gần gũi, dễ hiểu, tích cực. Không nêu tên cá nhân, không nêu số tiền vay cụ thể.</div>
+    <p><b>Ưu điểm:</b> rõ vai trò, nhiệm vụ, đối tượng, độ dài, văn phong và bảo mật.</p>
+  </div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">15</span></div>
+</section>
+<section class="slide" id="s16">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 16 / 26 · 4 công cụ AI</span>
+      <h2>Tổng quan 4 công cụ AI dùng trong tập huấn</h2>
+      <p class="subtitle">Mỗi công cụ phục vụ một nhóm nhiệm vụ khác nhau.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="tool-grid">
+  <div class="tool-card"><div class="logo chat">GPT</div><h3>ChatGPT</h3><p>Soạn thảo, viết lại, tóm tắt, lập dàn ý, biên bản, báo cáo.</p></div>
+  <div class="tool-card"><div class="logo gem">G</div><h3>Gemini</h3><p>Gợi ý ý tưởng, lập bảng kế hoạch, giải thích nội dung, tạo dàn ý.</p></div>
+  <div class="tool-card"><div class="logo note">N</div><h3>NotebookLM</h3><p>Hỏi - đáp theo tài liệu, tóm tắt tài liệu dài, tạo câu hỏi ôn tập.</p></div>
+  <div class="tool-card"><div class="logo canva">C</div><h3>Canva AI</h3><p>Thiết kế poster, slide, infographic, bài đăng truyền thông.</p></div>
+</div>
+<div class="callout"><b>Gợi ý dạy:</b> ChatGPT/Gemini dùng cho chữ; NotebookLM dùng cho tài liệu; Canva AI dùng cho hình và thiết kế.</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">16</span></div>
+</section>
+<section class="slide" id="s17">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 17 / 26 · ChatGPT</span>
+      <h2>Hướng dẫn sử dụng ChatGPT</h2>
+      <p class="subtitle">Công cụ phù hợp nhất để demo soạn thảo và chỉnh sửa văn bản.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card"><h3>Quy trình 5 bước</h3><ol><li>Mở ChatGPT và đăng nhập.</li><li>Giao vai trò: “Bạn là cán bộ Hội...”</li><li>Nêu nhiệm vụ cụ thể.</li><li>Yêu cầu định dạng đầu ra.</li><li>Đọc, kiểm tra, yêu cầu viết lại nếu cần.</li></ol></div>
+  <div class="card"><h3>Prompt demo</h3><div class="prompt-line copyable">Bạn là cán bộ Hội Phụ nữ cấp xã. Hãy soạn thông báo họp Tổ TK&VV định kỳ tháng. Nội dung gồm thời gian, địa điểm, thành phần, nội dung họp, nhắc hội viên thực hiện trả lãi và gửi tiết kiệm theo quy định. Văn phong hành chính, ngắn gọn.</div><button class="copy-btn">Sao chép prompt</button></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">17</span></div>
+</section>
+<section class="slide" id="s18">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 18 / 26 · Gemini</span>
+      <h2>Hướng dẫn sử dụng Google Gemini</h2>
+      <p class="subtitle">Tốt cho gợi ý ý tưởng, lập kế hoạch và giải thích nhanh.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card"><h3>Nên dùng khi</h3><ul><li>Cần kế hoạch truyền thông theo tuần/tháng.</li><li>Cần ý tưởng chủ đề sinh hoạt chi hội.</li><li>Cần giải thích khái niệm bằng ngôn ngữ dễ hiểu.</li><li>Cần tạo bảng phân công hoặc lịch đăng bài.</li></ul></div>
+  <div class="card"><h3>Prompt demo</h3><div class="prompt-line copyable">Hãy lập kế hoạch truyền thông 4 tuần cho Hội Phụ nữ xã về chủ đề “vay vốn đúng mục đích - trả nợ đúng hạn - tiết kiệm đều đặn”. Trình bày theo bảng gồm: tuần, chủ đề, nội dung chính, hình thức truyền thông, ghi chú.</div><button class="copy-btn">Sao chép prompt</button></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">18</span></div>
+</section>
+<section class="slide" id="s19">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 19 / 26 · NotebookLM</span>
+      <h2>Hướng dẫn sử dụng NotebookLM</h2>
+      <p class="subtitle">Phù hợp khi có tài liệu nguồn cần tóm tắt, hỏi đáp và tạo câu hỏi.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card"><h3>Cách dùng</h3><ol><li>Tạo notebook mới.</li><li>Tải lên tài liệu được phép sử dụng.</li><li>Đặt câu hỏi dựa trên tài liệu.</li><li>Tạo tóm tắt, FAQ, câu hỏi kiểm tra.</li></ol><div class="callout danger"><b>Không tải lên:</b> danh sách hộ vay thật, hồ sơ tín dụng, thông tin cá nhân.</div></div>
+  <div class="card"><h3>Prompt demo</h3><div class="prompt-line copyable">Từ tài liệu đã tải lên, hãy tóm tắt thành 10 ý chính dành cho cán bộ Hội cấp xã. Sau đó tạo 10 câu hỏi thường gặp và 10 câu trắc nghiệm ngắn để kiểm tra cuối buổi tập huấn.</div><button class="copy-btn">Sao chép prompt</button></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">19</span></div>
+</section>
+<section class="slide" id="s20">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 20 / 26 · Canva AI</span>
+      <h2>Hướng dẫn sử dụng Canva AI</h2>
+      <p class="subtitle">Dùng để tạo hình ảnh truyền thông dễ nhìn, chữ lớn, thông điệp rõ.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card"><h3>Quy trình thiết kế</h3><ol><li>Chọn loại thiết kế: poster, bài đăng, slide.</li><li>Nhập mô tả chủ đề.</li><li>Chọn mẫu phù hợp.</li><li>Chỉnh tiêu đề, màu sắc, logo đơn vị.</li><li>Xuất file PNG/PDF để sử dụng.</li></ol></div>
+  <div class="card"><h3>Prompt demo</h3><div class="prompt-line copyable">Thiết kế poster khổ dọc về chủ đề “Vay vốn đúng mục đích - Trả nợ đúng hạn - Gửi tiết kiệm đều đặn”. Phong cách gần gũi với phụ nữ nông thôn, màu xanh dương và xanh lá, chữ lớn, bố cục rõ, dễ đọc.</div><button class="copy-btn">Sao chép prompt</button></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">20</span></div>
+</section>
+<section class="slide" id="s21">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 21 / 26 · Ứng dụng 1</span>
+      <h2>AI trong tuyên truyền chính sách tín dụng</h2>
+      <p class="subtitle">Biến văn bản, chủ trương thành nội dung gần gũi với người dân.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card"><h3>Các sản phẩm có thể tạo</h3><ul><li>Bài đăng Fanpage Hội Phụ nữ xã.</li><li>Tin nhắn Zalo nhắc lịch giao dịch xã.</li><li>Kịch bản phát thanh 2-3 phút.</li><li>Bộ câu hỏi - đáp cho hội viên.</li></ul></div>
+  <div class="card"><h3>Prompt thực hành</h3><div class="prompt-line copyable">Hãy viết bài tuyên truyền 400 chữ về ý nghĩa của tín dụng chính sách xã hội đối với hộ nghèo, hộ cận nghèo và các đối tượng chính sách. Giọng văn gần gũi, dễ hiểu, tích cực, không nêu thông tin cá nhân hoặc khoản vay cụ thể.</div><button class="copy-btn">Sao chép prompt</button></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">21</span></div>
+</section>
+<section class="slide" id="s22">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 22 / 26 · Ứng dụng 2</span>
+      <h2>AI trong quản lý Tổ TK&VV</h2>
+      <p class="subtitle">Hỗ trợ chuẩn bị họp tổ, nhắc việc và chuẩn hóa biểu mẫu.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid three">
+  <div class="mini-card"><h3>Thông báo họp tổ</h3><p>Thời gian, địa điểm, thành phần, nội dung, yêu cầu tham dự.</p></div>
+  <div class="mini-card"><h3>Biên bản sinh hoạt</h3><p>Mẫu biên bản có cấu trúc rõ để điền thông tin sau.</p></div>
+  <div class="mini-card"><h3>Checklist Tổ trưởng</h3><p>Danh sách việc cần theo dõi: trả lãi, gửi tiết kiệm, sinh hoạt tổ, tuyên truyền.</p></div>
+</div>
+<div class="prompt-line copyable">Bạn là cán bộ Hội phụ trách Tổ TK&VV. Hãy lập checklist công việc hằng tháng cho Tổ trưởng, gồm: nhắc lịch giao dịch xã, theo dõi trả lãi, gửi tiết kiệm, sinh hoạt tổ, tuyên truyền chính sách và báo cáo khó khăn.</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">22</span></div>
+</section>
+<section class="slide" id="s23">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 23 / 26 · Ứng dụng 3</span>
+      <h2>AI trong kiểm tra, giám sát và báo cáo</h2>
+      <p class="subtitle">Tạo công cụ hỗ trợ kiểm tra nhưng không thay thế nghiệp vụ chính thức.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card"><h3>AI hỗ trợ</h3><ul><li>Lập checklist kiểm tra Tổ TK&VV.</li><li>Gợi ý câu hỏi khi kiểm tra hộ vay.</li><li>Tổng hợp ý kiểm tra thành báo cáo.</li><li>Phân loại ưu điểm, tồn tại, nguyên nhân, kiến nghị.</li></ul></div>
+  <div class="card"><h3>Prompt thực hành</h3><div class="prompt-line copyable">Bạn là cán bộ Hội Phụ nữ cấp xã. Hãy lập checklist kiểm tra hoạt động Tổ TK&VV gồm các nhóm: hồ sơ tổ, sinh hoạt tổ, bình xét cho vay, sử dụng vốn, trả lãi, gửi tiết kiệm, tuyên truyền chính sách, khó khăn vướng mắc. Trình bày thành bảng.</div><button class="copy-btn">Sao chép prompt</button></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">23</span></div>
+</section>
+<section class="slide" id="s24">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 24 / 26 · Ứng dụng 4</span>
+      <h2>Truyền thông giáo dục tài chính và thực hành tổng hợp</h2>
+      <p class="subtitle">Kết hợp nội dung AI tạo chữ và Canva AI tạo hình ảnh.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="grid two">
+  <div class="card"><h3>Chủ đề truyền thông gợi ý</h3><ul><li>Vay vốn đúng mục đích.</li><li>Trả nợ đúng hạn để giữ uy tín.</li><li>Gửi tiết kiệm đều đặn.</li><li>Không vay ké, không đứng tên hộ.</li><li>Phụ nữ quản lý tài chính gia đình hiệu quả.</li></ul></div>
+  <div class="card"><h3>Bài thực hành nhóm</h3><ol><li>Chọn 1 chủ đề.</li><li>Dùng ChatGPT/Gemini viết nội dung 150 chữ.</li><li>Dùng Canva AI tạo poster.</li><li>Nhóm trình bày trong 3 phút.</li></ol></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">24</span></div>
+</section>
+<section class="slide" id="s25">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 25 / 26 · Kho prompt mẫu</span>
+      <h2>Kho prompt mẫu dùng ngay</h2>
+      <p class="subtitle">Bấm vào từng khung prompt hoặc nút sao chép để dùng trực tiếp khi thực hành.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="prompt-library">
+  <div class="mini-card"><h3>1. Bài tuyên truyền</h3><div class="prompt-line copyable">Bạn là cán bộ Hội Phụ nữ cấp xã. Hãy viết bài tuyên truyền 350 chữ về tín dụng chính sách xã hội giúp hộ nghèo, hộ cận nghèo phát triển kinh tế. Giọng văn gần gũi, dễ hiểu, tích cực. Không nêu thông tin cá nhân hoặc số tiền vay cụ thể.</div></div>
+  <div class="mini-card"><h3>2. Tin Zalo ngắn</h3><div class="prompt-line copyable">Hãy viết 3 mẫu tin nhắn Zalo nhắc hội viên tham dự họp Tổ TK&amp;VV đúng giờ, chuẩn bị nội dung cần trao đổi và thực hiện nghĩa vụ trả lãi, gửi tiết kiệm theo quy định. Ngắn gọn, lịch sự, dễ hiểu.</div></div>
+  <div class="mini-card"><h3>3. Kịch bản phát thanh</h3><div class="prompt-line copyable">Viết kịch bản phát thanh 3 phút về chủ đề “Vay vốn đúng mục đích - trả nợ đúng hạn - giữ uy tín cộng đồng”. Có lời mở đầu, nội dung chính và lời kết. Phù hợp phát trên loa xã/phường.</div></div>
+  <div class="mini-card"><h3>4. Thông báo họp tổ</h3><div class="prompt-line copyable">Soạn thông báo họp Tổ Tiết kiệm và vay vốn định kỳ tháng. Nội dung gồm thời gian, địa điểm, thành phần, nội dung họp, yêu cầu tham dự, nhắc trả lãi và gửi tiết kiệm. Văn phong hành chính.</div></div>
+  <div class="mini-card"><h3>5. Biên bản sinh hoạt</h3><div class="prompt-line copyable">Hãy soạn mẫu biên bản sinh hoạt Tổ TK&amp;VV định kỳ gồm: thời gian, địa điểm, thành phần, nội dung triển khai, ý kiến hội viên, kết luận, nhiệm vụ tháng tới. Để trống phần thông tin cá nhân để điền sau.</div></div>
+  <div class="mini-card"><h3>6. Checklist kiểm tra</h3><div class="prompt-line copyable">Lập checklist kiểm tra hoạt động Tổ TK&amp;VV theo bảng 3 cột: Nội dung kiểm tra - Câu hỏi gợi ý - Ghi chú. Bao gồm hồ sơ tổ, sinh hoạt tổ, bình xét vay, sử dụng vốn, trả lãi, gửi tiết kiệm.</div></div>
+  <div class="mini-card"><h3>7. Báo cáo sau kiểm tra</h3><div class="prompt-line copyable">Dựa trên các ý sau [dán nội dung đã ẩn danh], hãy viết báo cáo ngắn kết quả kiểm tra Tổ TK&amp;VV gồm: ưu điểm, tồn tại, nguyên nhân, kiến nghị. Văn phong hành chính, rõ ý, không nêu dữ liệu cá nhân.</div></div>
+  <div class="mini-card"><h3>8. Thư nhắc trả lãi</h3><div class="prompt-line copyable">Soạn mẫu thư nhắc hội viên thực hiện trả lãi, trả nợ đến hạn và gửi tiết kiệm theo quy định. Giọng văn lịch sự, động viên, không gây áp lực, không nêu tên cá nhân, không nêu số tiền cụ thể.</div></div>
+  <div class="mini-card"><h3>9. Kế hoạch phối hợp</h3><div class="prompt-line copyable">Lập kế hoạch phối hợp xử lý một trường hợp hộ vay gặp khó khăn đã được ẩn danh. Thành phần gồm Hội Phụ nữ, Tổ trưởng Tổ TK&amp;VV, NHCSXH và chính quyền địa phương. Trình bày theo bảng.</div></div>
+  <div class="mini-card"><h3>10. Giáo dục tài chính</h3><div class="prompt-line copyable">Viết nội dung sinh hoạt chuyên đề 15 phút về “Phụ nữ quản lý tài chính gia đình hiệu quả”. Nội dung dễ hiểu, có ví dụ, có 5 câu hỏi thảo luận và 3 thông điệp cuối buổi.</div></div>
+  <div class="mini-card"><h3>11. Canva poster</h3><div class="prompt-line copyable">Thiết kế poster khổ dọc về chủ đề “Gửi tiết kiệm đều đặn - chủ động tương lai”. Phong cách trang trọng, gần gũi, màu xanh dương và xanh lá, chữ lớn, ít chữ, có hình ảnh phụ nữ và gia đình.</div></div>
+  <div class="mini-card"><h3>12. NotebookLM</h3><div class="prompt-line copyable">Từ tài liệu đã tải lên, hãy tạo 12 câu hỏi thường gặp dành cho cán bộ Hội cấp xã, 10 câu trắc nghiệm có đáp án và bảng tóm tắt 5 nội dung quan trọng nhất.</div></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">25</span></div>
+</section>
+<section class="slide" id="s26">
+  <div class="slide-head">
+    <div>
+      <span class="tag">Page 26 / 26 · Kết luận &amp; cảm ơn</span>
+      <h2>Kết luận và lời cảm ơn</h2>
+      <p class="subtitle">Chốt lại tinh thần ứng dụng AI đúng cách, an toàn và hiệu quả.</p>
+    </div>
+    <span class="tag">Giảng viên: ĐẶNG VIỆT DUY</span>
+  </div>
+  <div class="slide-body">
+<div class="hero-layout">
+  <div>
+    <div class="card">
+      <h3>Thông điệp kết luận</h3>
+      <ul>
+        <li>AI là trợ lý hỗ trợ cán bộ Hội làm việc nhanh hơn, rõ hơn và sáng tạo hơn.</li>
+        <li>AI giúp soạn thảo, tóm tắt, lập kế hoạch, tạo checklist và thiết kế truyền thông.</li>
+        <li>Khi dùng AI trong hoạt động ủy thác, phải luôn bảo mật dữ liệu và kiểm tra kết quả.</li>
+        <li>Con người vẫn là người quyết định cuối cùng và chịu trách nhiệm cuối cùng.</li>
+      </ul>
+    </div>
+    <div class="thanks">
+      <h2>Xin trân trọng cảm ơn!</h2>
+      <p>Giảng viên tập huấn: <b>ĐẶNG VIỆT DUY</b></p>
+      <p>Kính chúc quý học viên ứng dụng AI hiệu quả vào công việc thực tiễn.</p>
+    </div>
+  </div>
+  <div class="visual"><svg viewBox="0 0 640 460"><circle cx="320" cy="190" r="130" fill="#eef4ff"/><path d="M180 260c42-44 92-70 140-70s98 26 140 70" fill="none" stroke="#1357c8" stroke-width="16" stroke-linecap="round"/><circle cx="250" cy="170" r="36" fill="#1357c8"/><circle cx="390" cy="170" r="36" fill="#0c9a7a"/><circle cx="320" cy="140" r="42" fill="#7db1ff"/><text x="320" y="380" text-anchor="middle" font-size="38" font-weight="900" fill="#0b3d91">CẢM ƠN</text></svg></div>
+</div>
+</div>
+  <div class="footer"><span>Ứng dụng AI trong hoạt động ủy thác với NHCSXH</span><span class="pageno">26</span></div>
+</section>
+  </div>
+</main>
+</div>
+<div class="fab">
+  <button id="prev" class="secondary">← Trước</button>
+  <button id="next" class="secondary">Tiếp →</button>
+  <button id="top" class="secondary">↑ Đầu</button>
+</div>
+<div id="toast" class="toast">Đã sao chép</div>
+<script>
+const body=document.body, sidebar=document.querySelector('aside'), menuToggle=document.getElementById('menuToggle'), search=document.getElementById('search'), slides=[...document.querySelectorAll('.slide')], nav=[...document.querySelectorAll('nav a')], bar=document.getElementById('bar'), counter=document.getElementById('counter'), toast=document.getElementById('toast');
+let current=0, font=20;
+function showToast(t){toast.textContent=t;toast.style.display='block';setTimeout(()=>toast.style.display='none',1500)}
+menuToggle.onclick=()=>{ if(innerWidth<900){sidebar.classList.toggle('open')} else {body.classList.toggle('menu-hidden'); menuToggle.textContent=body.classList.contains('menu-hidden')?'☰ Hiện menu':'☰ Ẩn menu'} };
+document.getElementById('theme').onclick=()=> body.getAttribute('data-theme')==='dark'?body.removeAttribute('data-theme'):body.setAttribute('data-theme','dark');
+document.getElementById('print').onclick=()=>window.print();
+document.getElementById('full').onclick=()=> document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();
+document.getElementById('top').onclick=()=>scrollTo({top:0,behavior:'smooth'});
+document.getElementById('font').onclick=()=>{font=font>=26?18:font+2;body.style.fontSize=font+'px'};
+document.getElementById('next').onclick=()=>{slides[Math.min(current+1,slides.length-1)].scrollIntoView({behavior:'smooth',block:'center'})};
+document.getElementById('prev').onclick=()=>{slides[Math.max(current-1,0)].scrollIntoView({behavior:'smooth',block:'center'})};
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('reveal');current=slides.indexOf(e.target);counter.textContent=String(current+1).padStart(2,'0')+' / '+slides.length;nav.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));}}),{threshold:.45});
+slides.forEach(s=>io.observe(s));
+addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-innerHeight;bar.style.width=(max?scrollY/max*100:0)+'%'});
+search.oninput=()=>{const q=search.value.toLowerCase().trim();slides.forEach((s,i)=>{const m=!q||s.innerText.toLowerCase().includes(q);s.classList.toggle('hidden',!m);nav[i].classList.toggle('hidden',!m)})};
+document.querySelectorAll('.copy-btn,.copyable').forEach(el=>el.addEventListener('click',async()=>{const t=el.classList.contains('copyable')?el.innerText:el.parentElement.querySelector('.prompt-line')?.innerText;try{await navigator.clipboard.writeText(t);showToast('Đã sao chép nội dung')}catch(e){showToast('Vui lòng sao chép thủ công')}}));
+nav.forEach(a=>a.addEventListener('click',()=>sidebar.classList.remove('open')));
+</script>
+</body>
+</html>
